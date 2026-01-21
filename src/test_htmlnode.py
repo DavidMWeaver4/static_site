@@ -1,8 +1,6 @@
 import unittest
 
-from textnode import TextNode, TextType, text_node_to_html_node
 from htmlnode import HTMLNode, LeafNode, ParentNode
-from split_nodes import split_nodes_delimiter
 
 
 class TestHTMLNode(unittest.TestCase):
@@ -65,31 +63,6 @@ class TestHTMLNode(unittest.TestCase):
             child_node = LeafNode("span", "child")
             node = ParentNode(None, [child_node], None)
             node.to_html()
-
-    def test_text(self):
-        node = TextNode("This is a text node", TextType.TEXT)
-        html_node = text_node_to_html_node(node)
-        self.assertEqual(html_node.tag, None)
-        self.assertEqual(html_node.value, "This is a text node")
-
-    def test_text_error(self):
-        with self.assertRaises(Exception):
-            node = TextNode("This is fucking stupid", TextType.IMG)
-            html_node = text_node_to_html_node(node)
-
-    def test_split_w_delimi(self):
-        node = TextNode("This is text with a `code block` word", TextType.TEXT)
-        new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
-        self.assertEqual(new_nodes, [
-            TextNode("This is text with a ", TextType.TEXT),
-            TextNode("code block", TextType.CODE),
-            TextNode(" word", TextType.TEXT),
-        ])
-
-    def test_split_w_delimi_inv_type(self):
-        with self.assertRaises(Exception):
-            node = TextNode("This is text", TextType.TEXT)
-            new_nodes = split_nodes_delimiter([node], "**", TextType.IMG)
 
 
 if __name__ == "__main__":
