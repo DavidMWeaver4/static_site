@@ -9,7 +9,7 @@ def copy_files_recursive(src, dest):
     # If src is a file, copy it
     if os.path.isfile(src):
         # Ensure parent directory exists
-        os.makedirs(dest, exist_ok=True)
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
         shutil.copy(src, dest)
         print(f"Copied file: {src} -> {dest}")
         return
